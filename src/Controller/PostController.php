@@ -23,8 +23,12 @@ class PostController extends AbstractController
      */
     public function index(PostRepository $postRepository): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $posts = $entityManager->getRepository(Post::class)->getLastInserted('App:Post', 5);
+
         return $this->render('post/index.html.twig', [
-            'posts' => $postRepository->findAll(),
+            'posts' => $posts,
         ]);
     }
 
